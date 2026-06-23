@@ -1,0 +1,50 @@
+;; Phase 3 测试 — 引擎切换 + 惰性导入
+
+(display "=== 1. 引擎信息 ===")
+(newline)
+(engine-info)
+
+(display "=== 2. 默认 auto 模式（symengine 优先）===")
+(newline)
+(import symengine)
+(define x (symengine.Symbol 'x))
+
+(display "expand (auto→symengine): ")
+(display (expand #{(x+1)^2}))
+(newline)
+
+(display "diff (auto→symengine): ")
+(display (diff #{x^3} x))
+(newline)
+
+(display "=== 3. 强制 symengine 模式 ===")
+(newline)
+(use-engine 'symengine)
+(display "engine: symengine")
+(newline)
+(display "expand: ")
+(display (expand #{(x+1)^3}))
+(newline)
+
+(display "=== 4. 强制 sympy 模式 ===")
+(newline)
+(use-engine 'sympy)
+(display "engine: sympy")
+(newline)
+(display "factor: ")
+(display (factor #{x^4 - 1}))
+(newline)
+(display "solve: ")
+(display (solve #{x^2 - 4 = 0} x))
+(newline)
+
+(display "=== 5. 切换回 auto ===")
+(newline)
+(use-engine 'auto)
+(display "series(symengine): ")
+(define s (series #{sin(x)} x 0 5))
+(display s)
+(newline)
+
+(display "=== Phase 3 完成 ===")
+(newline)
